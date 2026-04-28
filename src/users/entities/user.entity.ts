@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Profile } from './profile.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -25,4 +26,9 @@ export class User {
       onUpdate: 'CURRENT_TIMESTAMP'
     })
     updatedAt!: Date;
+
+    //Agrego la relacion con Profile para el User, un User tiene un Profile.
+    @OneToOne(() => Profile, { nullable: false, cascade: true }) //nullable:false significa que si o si un profile tiene que tener un user. cascade:true significa que si se borra un user, se borra su profile asociado.
+    @JoinColumn({ name: 'profile_id' })
+    profile!: Profile;
 }
