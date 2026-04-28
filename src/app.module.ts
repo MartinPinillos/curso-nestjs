@@ -23,7 +23,6 @@ import { EnvConfig } from './env.model';
       inject: [ConfigService],
     }),
     UsersModule,
-
   ],
 })
 export class AppModule {}

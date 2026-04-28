@@ -1,15 +1,18 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity({ name: 'users' })
-export class User {
+@Entity({ name: 'profiles' })
+export class Profile {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: 'varchar', length: 255 , unique: true })
-    email!: string;
-
     @Column({ type: 'varchar', length: 255 })
-    password!: string;
+    name!: string;
+
+    @Column({ type: 'varchar', length: 255, name: 'last_name' })
+    lastName!: string;
+
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    avatar!: string;
 
     @CreateDateColumn({
       name: 'created_at',

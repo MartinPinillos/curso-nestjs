@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Delete, Put, ParseIntPipe } from '@nestjs/common';
 import { error } from 'console';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 import { UsersService } from './users.service';
@@ -12,8 +12,9 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  //sino se ponse el ParseIntPipe, el id se recibe como string, pero en el id si se le pone (+id) se convierte en number
   @Get(':id')
-  findUser(@Param('id') id: string) {
+  findUser(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.getUserById(id);
   }
 
@@ -23,12 +24,12 @@ export class UsersController {
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: string) {
+  deleteUser(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.delete(id);
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() changes: UpdateUserDto) {
+  updateUser(@Param('id', ParseIntPipe) id: number, @Body() changes: UpdateUserDto) {
     return this.usersService.update(id, changes);
   }
 }
