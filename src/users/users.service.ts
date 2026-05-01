@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, ForbiddenException, BadRequestException, HttpException } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { CreateUserDto, UpdateUserDto } from './dtos/user.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
@@ -18,7 +18,8 @@ export class UsersService {
       // {
       //   where: {email: 'martin@gmail.com'},
       // },
-    );
+      {relations: ['profile'], //para traer el profile asociado al user
+    });
     return users;
   }
 
@@ -28,6 +29,11 @@ export class UsersService {
       throw new ForbiddenException(`User with id ${id} no tiene acceso`);
     }
     return user;
+  }
+
+  async getProfileByUserId(id: number) {
+    const user = await this.findOne(id);
+    return user!.profile;
   }
 
   async create(body: CreateUserDto) {
@@ -43,16 +49,12 @@ export class UsersService {
   async update(id: number, changes: UpdateUserDto) {
     try{
       const user = await this.findOne(id);
-      if (changes.email && changes.email !== user.email) {
-        const emailExists = await this.usersRepository.findOneBy({ email: changes.email });
-        if (emailExists) {
-          throw new BadRequestException(`Email ${changes.email} incorrecto.`);
-        }
-      }
+      //console.log(changes);
       const updatedUser = this.usersRepository.merge(user, changes);
-      return this.usersRepository.save(updatedUser);
-    } catch(error){
-      if (error instanceof HttpException) throw error;
+      // console.log(updatedUser);
+      const savedUser = await this.usersRepository.save(updatedUser);
+      return savedUser;
+    } catch {
       throw new BadRequestException(`Error updating user`);
     }
   }
@@ -64,7 +66,10 @@ export class UsersService {
   }
 
   private async findOne(id: number) {
-    const user = await this.usersRepository.findOneBy({id});
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: ['profile'], //para traer el profile asociado al user
+    });
     if (!user) {
       throw new NotFoundException('User not found');
     }
