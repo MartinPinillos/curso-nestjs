@@ -63,4 +63,12 @@ export class PostsService {
       throw new BadRequestException('Error deleting post');
     }
   }
+
+  async getPostsByCategoryId(categoryId: number) {
+    const posts = await this.postsRepository.find({
+      where: { categories: { id: categoryId } }, //filtro los posts por la categoria a la que pertenecen.
+      relations: ['user.profile'], //cargo la relacion con user y categories para que me traiga el user y las categorias asociadas a cada post.
+    });
+    return posts;
+  }
 }

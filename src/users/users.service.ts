@@ -37,6 +37,17 @@ export class UsersService {
     return user!.profile;
   }
 
+  async getPostsByUserId(id: number) {
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: ['posts'], //para traer los posts asociados al user
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user!.posts;
+  }
+
   async create(body: CreateUserDto) {
     try {
       const newUser = await this.usersRepository.save(body); //existe el metodo create pero no hace el insert a la base de datos, solo crea la instancia del objeto, con save se hace el insert a la base de datos
