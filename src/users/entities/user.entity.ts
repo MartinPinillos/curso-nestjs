@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Profile } from './profile.entity';
+import { Post } from '../../posts/entities/post.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -31,4 +32,8 @@ export class User {
   @OneToOne(() => Profile, { nullable: false, cascade: true }) //nullable:false significa que si o si un profile tiene que tener un user. //cascade:true significa que si se borra un user, se borra su profile asociado.
   @JoinColumn({ name: 'profile_id' })
   profile!: Profile;
+
+  //Relacion con Posts, un User puede tener varios Posts
+  @OneToMany(() => Post, post => post.user)
+  posts!: Post[];
 }

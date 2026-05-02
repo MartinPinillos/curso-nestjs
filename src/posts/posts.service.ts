@@ -13,13 +13,16 @@ export class PostsService {
   ) {}
 
   async findAll() {
-    const posts = await this.postsRepository.find();
+    const posts = await this.postsRepository.find({
+      relations: ['user.profile'], //cargo la relacion con user para que me traiga el user asociado a cada post.
+    });
     return posts;
   }
 
   async findOne(id: number) {
     const post = await this.postsRepository.findOne({
       where: { id },
+      relations: ['user.profile'], //cargo la relacion con user para que me traiga el user asociado a ese post.
     });
     if (!post) {
       throw new NotFoundException(`Post with id ${id} not found`);
@@ -29,7 +32,11 @@ export class PostsService {
 
   async create(body: CreatePostDto) {
     try {
-      return await this.postsRepository.save(body);
+      const newPost = await this.postsRepository.save({
+        ...body,
+        user: { id: body.userId }, //asigno el userId al post, para que sepa a que user pertenece el post.
+      });
+      return this.findOne(newPost.id); //devuelvo el post creado con su user asociado.
     } catch {
       throw new BadRequestException('Error creating post');
     }
@@ -40,7 +47,7 @@ export class PostsService {
       const post = await this.findOne(id);
       const updatedPost = this.postsRepository.merge(post, changes);
       const savedPost = await this.postsRepository.save(updatedPost);
-      return savedPost;
+      return this.findOne(savedPost.id); //devuelvo el post actualizado con su user asociado.
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new BadRequestException('Error updating post');

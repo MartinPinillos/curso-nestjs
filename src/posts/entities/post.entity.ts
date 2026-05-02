@@ -1,4 +1,5 @@
-import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity({ name: 'posts' })
 export class Post {
@@ -35,4 +36,10 @@ export class Post {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt!: Date;
+
+  //Relaciones
+  //Varios articulos pueden pertenecer a un mismo User
+  @ManyToOne(() => User, (user) => user.posts, { nullable: false}) //nullable:false significa que un post tiene que tener un user asociado, no puede existir un post sin un user.
+  @JoinColumn({ name: 'user_id' }) //especifico la FK a la cual "post" se va a unir con "user"
+  user!: User;
 }
