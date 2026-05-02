@@ -14,7 +14,7 @@ export class PostsService {
 
   async findAll() {
     const posts = await this.postsRepository.find({
-      relations: ['user.profile'], //cargo la relacion con user para que me traiga el user asociado a cada post.
+      relations: ['user.profile', 'categories'], //cargo la relacion con user y categories para que me traiga el user y las categorias asociadas a cada post.
     });
     return posts;
   }
@@ -22,7 +22,7 @@ export class PostsService {
   async findOne(id: number) {
     const post = await this.postsRepository.findOne({
       where: { id },
-      relations: ['user.profile'], //cargo la relacion con user para que me traiga el user asociado a ese post.
+      relations: ['user.profile', 'categories'], //cargo la relacion con user para que me traiga el user asociado a ese articulo.
     });
     if (!post) {
       throw new NotFoundException(`Post with id ${id} not found`);
@@ -35,6 +35,7 @@ export class PostsService {
       const newPost = await this.postsRepository.save({
         ...body,
         user: { id: body.userId }, //asigno el userId al post, para que sepa a que user pertenece el post.
+        categories: body.categoryIds?.map((id) => ({ id })), //asigno las categoryIds al post, para que sepa a que categorias pertenece el post.
       });
       return this.findOne(newPost.id); //devuelvo el post creado con su user asociado.
     } catch {
