@@ -5,7 +5,6 @@ import { CreateProfileDto, UpdateProfileDto } from './profile.dto';
 
 //Aca van solo las validaciones de datos que reciben los endpoints, no hay logica de negocio.
 
-
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()

@@ -6,7 +6,6 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
-
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -18,8 +17,10 @@ export class UsersService {
       // {
       //   where: {email: 'martin@gmail.com'},
       // },
-      {relations: ['profile'], //para traer el profile asociado al user
-    });
+      {
+        relations: ['profile'], //para traer el profile asociado al user
+      },
+    );
     return users;
   }
 
@@ -37,17 +38,16 @@ export class UsersService {
   }
 
   async create(body: CreateUserDto) {
-    try{
+    try {
       const newUser = await this.usersRepository.save(body); //existe el metodo create pero no hace el insert a la base de datos, solo crea la instancia del objeto, con save se hace el insert a la base de datos
       return newUser;
     } catch {
       throw new BadRequestException(`Error creating user`);
     }
-
   }
 
   async update(id: number, changes: UpdateUserDto) {
-    try{
+    try {
       const user = await this.findOne(id);
       //console.log(changes);
       const updatedUser = this.usersRepository.merge(user, changes);

@@ -6,7 +6,7 @@ import { User } from './entities/user.entity';
 import { Profile } from './entities/profile.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([User, Profile])],
+  imports: [TypeOrmModule.forFeature([User, Profile])],
   controllers: [UsersController],
   providers: [UsersService],
   exports: [UsersService], //Si otro servicio necesita funcionalidades de userService, se exporta para que pueda ser utilizado en otros módulos
