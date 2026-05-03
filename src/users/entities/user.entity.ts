@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import * as bcrypt from 'bcrypt';
 import { Profile } from './profile.entity';
 import { Post } from '../../posts/entities/post.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User {
@@ -12,6 +13,7 @@ export class User {
   email!: string;
 
   @Column({ type: 'varchar', length: 255 })
+  @Exclude()
   password!: string;
 
   @CreateDateColumn({
