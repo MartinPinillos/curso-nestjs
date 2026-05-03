@@ -20,7 +20,7 @@ import { PostsModule } from './posts/posts.module';
         database: configService.get('POSTGRES_DB', { infer: true }),
         autoLoadEntities: true,
         //El "synchronize" NO debe estar en produccion, solo para desarrollo, ya que sincroniza la base de datos con las entidades cada vez que se inicia la aplicacion, lo que puede causar perdida de datos si se borra una columna o una tabla.
-        synchronize: true, //deberia tener una clase propia para la migracion
+        synchronize: false, //deberia tener una clase propia para la migracion
       }),
       inject: [ConfigService],
     }),

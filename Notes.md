@@ -1,3 +1,22 @@
+# Comandos de instalacion de paquetes
+
+-Para instalar
+npm i -g @nestjs/cli
+
+Para instalar clase Validation
+npm i --save class-validator class-transformer
+
+Para instalar paquete de configuracion de variables de entorno
+npm i --save @nestjs/config
+
+Para instalar el ORM TypeORM para la base Postgres
+npm install --save @nestjs/typeorm typeorm pg
+
+Para instalar Mapped para usar PartialTypes
+npm i @nestjs/mapped-types --save
+
+
+
 [GET] http://localhost:3000/
 
 Hello world
