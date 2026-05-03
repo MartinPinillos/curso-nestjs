@@ -15,6 +15,11 @@ npm install --save @nestjs/typeorm typeorm pg
 Para instalar Mapped para usar PartialTypes
 npm i @nestjs/mapped-types --save
 
+Para instalar libreria de encriptado
+npm i bcrypt
+npm i -D @types/bcrypt
+
+
 # Comandos de Migracion
 
 Para generar archivo de migracions, el init deberia reemplazarse por numero de tarea.

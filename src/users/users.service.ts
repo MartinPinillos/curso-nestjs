@@ -50,8 +50,9 @@ export class UsersService {
 
   async create(body: CreateUserDto) {
     try {
-      const newUser = await this.usersRepository.save(body); //existe el metodo create pero no hace el insert a la base de datos, solo crea la instancia del objeto, con save se hace el insert a la base de datos
-      return newUser;
+      const newUser = this.usersRepository.create(body);
+      const savedUser = await this.usersRepository.save(newUser); //existe el metodo create pero no hace el insert a la base de datos, solo crea la instancia del objeto, con save se hace el insert a la base de datos
+      return this.findOne(savedUser.id); //para traer el user con el profile asociado, sino se devuelve el user sin el profile
     } catch {
       throw new BadRequestException(`Error creating user`);
     }
