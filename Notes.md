@@ -15,6 +15,20 @@ npm install --save @nestjs/typeorm typeorm pg
 Para instalar Mapped para usar PartialTypes
 npm i @nestjs/mapped-types --save
 
+# Comandos de Migracion
+
+Para generar archivo de migracions, el init deberia reemplazarse por numero de tarea.
+npm run migrations:generate ./src/database/migrations/init
+
+Para ver migraciones implementadas
+npm run migrations:show
+
+Para correr migraciones disponibles
+npm run migrations:run
+
+Para crear una migracion manualmente y poner scripts alli
+npm run migrations:create ./src/database/migrations/change-varchar
+
 
 
 [GET] http://localhost:3000/
