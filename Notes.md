@@ -15,10 +15,17 @@ npm install --save @nestjs/typeorm typeorm pg
 Para instalar Mapped para usar PartialTypes
 npm i @nestjs/mapped-types --save
 
-Para instalar libreria de encriptado
+Para instalar libreria de encriptado (ambos se deben ejecutar)
 npm i bcrypt
 npm i -D @types/bcrypt
 
+Para instalar un Strategy local
+npm install --save @nestjs/passport passport passport-local
+npm install --save-dev @types/passport-local
+
+Para instalar JWT
+npm install --save @nestjs/jwt passport-jwt
+npm install --save-dev @types/passport-jwt
 
 # Comandos de Migracion
 
