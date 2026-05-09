@@ -30,11 +30,11 @@ export class PostsService {
     return post;
   }
 
-  async create(body: CreatePostDto) {
+  async create(body: CreatePostDto, userId: number) {
     try {
       const newPost = await this.postsRepository.save({
         ...body,
-        user: { id: body.userId }, //asigno el userId al post, para que sepa a que user pertenece el post.
+        user: { id: userId }, //asigno el userId al post, para que sepa a que user pertenece el post.
         categories: body.categoryIds?.map((id) => ({ id })), //asigno las categoryIds al post, para que sepa a que categorias pertenece el post.
       });
       return this.findOne(newPost.id); //devuelvo el post creado con su user asociado.

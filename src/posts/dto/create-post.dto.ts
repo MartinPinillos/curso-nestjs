@@ -17,9 +17,10 @@ export class CreatePostDto {
   @IsOptional()
   summary!: string;
 
-  @IsNumber()
-  @IsNotEmpty()
-  userId!: number;
+  //Obtengo el userId del token, no lo envio en el body.
+  // @IsNumber()
+  // @IsNotEmpty()
+  // userId!: number;
 
   @IsArray()
   @IsNumber({}, { each: true })//valida si es numero cada elemento del array.
